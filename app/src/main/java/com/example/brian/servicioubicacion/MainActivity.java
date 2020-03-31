@@ -28,11 +28,14 @@ import com.google.android.gms.tasks.Task;
 
 public class MainActivity extends AppCompatActivity {
 
-    private FusedLocationProviderClient fusedLocationClient;
     Button aceptar;
-
+    //Origen
     TextView latitudOrigen;
     TextView longitudOrigen;
+
+    //Destino
+    TextView latitudDestino;
+    TextView longitudDestino;
 
     public static Intent intent = new Intent();
 
@@ -46,35 +49,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         aceptar = (Button)findViewById(R.id.btnAceptar);
+
+        //Origen
         latitudOrigen = (TextView)findViewById(R.id.txtLatitud);
         longitudOrigen = (TextView)findViewById(R.id.txtLongitud);
 
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
-        fusedLocationClient.getLastLocation()
-                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
-                    @Override
-                    public void onSuccess(Location location) {
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
-                            // Logic to handle location object
-                            String msj = "Latitud: "+ String.valueOf(location.getLatitude())
-                                    + "\nLongitud: " + location.getLongitude();
-
-                            Toast.makeText(MainActivity.this, msj,
-                                    Toast.LENGTH_LONG).show();
-                            Log.i("MiUbi", msj);
-                        }else {Log.i("MiUbi", "Sin ubicaciòn ");}
+        //Destino
+        latitudDestino = (TextView)findViewById(R.id.txtLatitudDestino);
+        longitudDestino = (TextView)findViewById(R.id.txtLonfitudDestino);
 
 
-                    }
-                });
 
         aceptar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
+                //Origen
                 intent.putExtra("LatitudOrigen", latitudOrigen.getText().toString());
                 intent.putExtra("LongitudOrigen",longitudOrigen.getText().toString());
+
+                //Destino
+                intent.putExtra("latituDestino",latitudDestino.getText().toString());
+                intent.putExtra("longitudDestino",longitudDestino.getText().toString());
+
 
                 Intent intent = new Intent(getApplicationContext(),MapsActivity.class);
                 startActivity(intent);
